@@ -20,11 +20,12 @@ This code is available and is fully adaptable for individual user customization.
 
 ## Usage 
 
-This repository is organised as follows.
+In this repository there is a folder named `code` that contains the following:
 
-- `code`: folder including the code we developed for the paper
-	- `utils_data.py`: sampling functions on images, circles, and nii files for surfaces and volumes
-	- `utils_PH.py`: functions to compute persistence, image-persistence and cycle matching
-	- `utils_plot.py`: plot functions
-
-- `examples`: applications included on Section 3 of the paper. Where possible, the data we used for those examples are also provided so that all experiments are fully reproducible. Note that some of the data we used required an institutional materials transfer agreement, so these data were not made available on this repository, and thus those examples are no reproducible.
+- `utils_data.py`: a python script with sampling functions on images, circles, and nii files for surfaces and volumes
+- `utils_PH.py`: a python script with functions to compute persistence, image-persistence and cycle matching
+- `utils_plot.py`: a python script for plotting functions
+- `examples`: folder with the applications included on Section 3 of the paper. It is organised as follows:
+	- `data`: folder featuring the dataset used for the examples on the paper. Note that some of the data we used required an institutional materials transfer agreement, so these data were not made available on this repository, and thus those examples are no reproducible.
+	- `examples.ipynb`: notebook to reproduce all experiments in the paper. 
+	- additional auxiliar scripts that are explained inside the notebook.
