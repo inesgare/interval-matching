@@ -11,7 +11,7 @@ This repository contains the code for the Persistent Cohomological Cycle Matchin
 This repository is organised as follows.
 
 - `applications`: folder with the applications included on Section 3 of the paper
-	- `code`: same folder as before, needed to run the notebook of examples
+	- `code`: same folder than below, needed to run the notebook of examples
 	- `data`: folder featuring the dataset used for the examples on the paper. Note that some of the data we used required an institutional materials transfer agreement, so these data were not made available on this repository, and thus those examples are no reproducible.
 	- `applications.ipynb`: notebook to reproduce all experiments in the paper. 
 	- additional auxiliar scripts that are explained inside the notebook.
