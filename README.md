@@ -4,10 +4,10 @@
 
 This repository contains the code for the Persistent Cohomological Cycle Matching approach developed in the paper ["Fast Topological Signal Identification and Persistent Cohomological Cycle Matching" (García-Redondo, Monod, and Song 2022)](https://arxiv.org/abs/2209.15446). 
 
-Persistent homology, one of the cornerstones of topological data analysis, studies the lifespan of the topological features in a nested sequence of topological spaces (i.e. a filtration) by tracking the changes in its homology groups. One of its main outcomes is the *persistence barcode* (or simply, *barcode*)---a canonical summary of the aforementioned lifespans as a set of half-open intervals. A natural question is whether it is possible to compare the barcodes obtained from different filtrations, which would, for instance, provide a correspondence between some of their intervals.
+Persistent homology, one of the cornerstones of topological data analysis, studies the lifespan of the topological features in a nested sequence of topological spaces (i.e. a filtration) by tracking the changes in its homology groups. One of its main outcomes is the *persistence barcode* (or simply, *barcode*)---a canonical summary of the aforementioned lifespans as a set of half-open intervals. A natural question is whether it is possible to compare the barcodes obtained from different filtrations, which would, for instance, provide a correspondence between some of their intervals. Cycle matching [1] is one such way of obtaining an identification between the intervals in two different barcodes. 
 
-Cycle matching [1] is one such way of obtaining an identification between the intervals in two different barcodes. In this repository:
-1. we provide state-of-the-art code for performing cycle matching by using the computational advantage that Ripser [2] and Ripser-image [3] render (see folde `code`), and
+In this repository:
+1. we provide state-of-the-art code for performing cycle matching by using the computational advantage that Ripser [2] and Ripser-image [3] render (see folder `match`), and
 2. we present a notebook to reproduce the applications in Section 3 of [the aforementioned paper](https://arxiv.org/abs/2209.15446) (see folder `applications`). 
 
 ### About C++
@@ -15,20 +15,30 @@ Cycle matching [1] is one such way of obtaining an identification between the in
 C++ is a general-purpose programming language which has object-oriented, generic, and functional features in addition to facilities for low-level memory manipulation. It is the language chosen for the codes Ripser [2] and Ripser-image [3]. The C++ files for those, with a slight modification needed to implement cycle matching, can be found in the folder `modified ripser`. 
 
 ### About Python
-Python is a high-level, general-purpose programming language. It is the language we use for our code for cycle matching (see folders `applications` and `code`). In this repository you can find python scripts and jupyter notebooks in python. Jupyter Notebook (formerly IPython Notebook) is a web-based interactive computational environment for creating notebook documents.
+Python is a high-level, general-purpose programming language. It is the language we use for our code for cycle matching (see folders `applications` and `match`). In this repository you can find python scripts and jupyter notebooks in python. Jupyter Notebook (formerly IPython Notebook) is a web-based interactive computational environment for creating notebook documents.
 
 ## Preparations
 
 ### Compiling the C++ programmes
-Before running the code to perform cycle matching in this repository, one needs to compile the C++ files in the `modified ripser` folder. The relevant Makefiles are included in the corresponding folders, so the compilation can be done by running the command line `make` in a terminal opened in the folder. The compiled files should be in the same directory than the python scripts/notebooks in which the cycle matching code is invoked.
+Before running the code to perform cycle matching in this repository, one needs to compile the C++ files in the `modified ripser` folder. For that
+- Install a C++ compiler in your computer. We recommend getting the compiler [GCC](https://gcc.gnu.org/).
+	- *For Linux*: the default Ubuntu repositories contain a meta-package named build-essential that contains the GCC compiler and a lot of libraries and other utilities required for compiling software. You only need to run `sudo apt install build-essential` in a terminal to install it.
+	- *For Windows*: you can install [Mingw-w64](https://www.mingw-w64.org/) which supports the GCC compiler on Windows systems. You can get this through the installation packages for [MSYS2](https://www.msys2.org/).
+	- *For MacOS*: see this [link](https://macappstore.org/gcc/) to install GCC.
+- The relevant Makefiles are included in the corresponding folders, so the compilation can be done by running the command line `make` in a terminal opened in the folder. 
+- The compiled files should be in the same directory than the python scripts/notebooks in which the cycle matching code is invoked.
 
 ### Installing python libraries
-The implementation of cycle matching in python on the folder `code` requires the previous installation of the following libraries (follow the corresponding link to find the documentation and installation guidelines):
+The implementation of cycle matching requires the installation of python on your computer. 
+
+Additionally, the python code in `match` requires the installation of the following libraries (follow the corresponding link to find the documentation and installation guidelines):
 - [numpy](https://numpy.org/)
 - [matplotlib](https://matplotlib.org/stable/index.html)
 
 For the notebook on `applications` one must also install the library
 - [scikit-image](https://scikit-image.org/)
+
+We recommend installing python and these libraries through [Anaconda](https://www.anaconda.com/) and [conda-forge](https://conda-forge.org/).
 
 
 ## Structure of the repository
@@ -36,11 +46,10 @@ For the notebook on `applications` one must also install the library
 This repository is organised as follows.
 
 - `applications`: folder with the applications included on Section 3 of the paper
-	- `code`: same folder than below, needed to run the notebook of examples
 	- `data`: folder featuring the dataset used for the examples on the paper. Note that some of the data we used required an institutional materials transfer agreement, so these data were not made available on this repository, and thus those examples are no reproducible.
 	- `applications.ipynb`: notebook to reproduce all experiments in the paper. 
 	- additional auxiliar scripts that are explained inside the notebook.
-- `code`: folder containing the main scripts of code. You need to include this folder in the same directory as any python script that implements cohomological cycle matching.
+- `match`: folder containing the main scripts of code. 
 	- `utils_data.py`: a python script with sampling functions on images, circles, and nii files for surfaces and volumes
 	- `utils_PH.py`: a python script with functions to compute persistence, image-persistence and cycle matching
 	- `utils_plot.py`: a python script for plotting functions
