@@ -16,11 +16,11 @@ def send_cmd_linux(cmd) :
     return out
 
 #### define your system
-send_cmd = send_cmd_linux
+send_cmd = send_cmd_windows
 
 ############
 
-from utils_plot import *
+from match.utils_plot import *
 
 
 ################
@@ -47,7 +47,7 @@ def compute_bars_tightreps(inp = None, filename = 'data') :
             f.write('\n')
         f.close()
         
-    software = "./ripser-tight-representatives"
+    software = "./ripser-representatives"
     options = ""
     
     command = "{} {} {}".format(software, options, ldm_file)
@@ -695,8 +695,7 @@ def matching(X,Y, dim = 1, verbose_figs = False, affinity_method = 'A', check_Mo
     # Image persistence - apply thresholding (bug fixed)
     out_X_Z = compute_image_bars(filename_X = ldm_file_X, filename_Z = ldm_file_Z, threshold = threshold)
     bars_X_Z, indices_X_Z = extract_bars_indices(out_X_Z, only_dim_1 = True)
-    print('bars_X_Z', bars_X_Z)
-
+    
     out_Y_Z = compute_image_bars(filename_X = ldm_file_Y, filename_Z = ldm_file_Z, threshold = threshold)
     bars_Y_Z, indices_Y_Z = extract_bars_indices(out_Y_Z, only_dim_1 = True)
     
