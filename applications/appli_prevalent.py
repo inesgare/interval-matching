@@ -7,7 +7,7 @@ import matplotlib
 matplotlib.use('Agg') # prevent from plotting through sbatch
 
 #from itertools import product
-from utils_PH import *
+from match.utils_PH import *
 
 from choose_data import DATASET, N_ref, N, N_resamp, noise_scale
 

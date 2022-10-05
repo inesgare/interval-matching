@@ -2,11 +2,11 @@ import numpy as np
 import pandas as pd
 import pickle
 
-from utils_data import sample_image_points
+from match.utils_data import sample_image_points
 
 from skimage.filters import threshold_otsu, threshold_mean, threshold_isodata, threshold_yen, threshold_minimum
 
-from utils_PH import *
+from match.utils_PH import *
 
 ##### PARAMETERS
 # Rmk: the parameters depend on the type of application we have

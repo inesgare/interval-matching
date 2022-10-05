@@ -19,7 +19,7 @@ Python is a high-level, general-purpose programming language. It is the language
 
 ## Preparations
 
-### Compiling the C++ libraries
+### Compiling the C++ programmes
 Before running the code to perform cycle matching in this repository, one needs to compile the C++ files in the `modified ripser` folder. The relevant Makefiles are included in the corresponding folders, so the compilation can be done by running the command line `make` in a terminal opened in the folder. The compiled files should be in the same directory than the python scripts/notebooks in which the cycle matching code is invoked.
 
 ### Installing python libraries
