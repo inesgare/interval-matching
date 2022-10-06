@@ -46,13 +46,13 @@ We recommend installing python and these libraries through [Anaconda](https://ww
 This repository is organised as follows.
 
 - `applications`: folder with the applications included on Section 3 of the paper
-	- `data`: folder featuring the dataset used for the examples on the paper. Note that some of the data we used required an institutional materials transfer agreement, so these data were not made available on this repository, and thus those examples are no reproducible.
+	- `data`: folder featuring the datasets used for the examples on the paper. Note that some of the data we used required an institutional materials transfer agreement, so these data were not made available on this repository, and thus those examples are no reproducible.
 	- `applications.ipynb`: notebook to reproduce all experiments in the paper. 
 	- additional auxiliar scripts that are explained inside the notebook.
 - `match`: folder containing the main scripts of code. 
 	- `utils_data.py`: a python script with sampling functions on images, circles, and nii files for surfaces and volumes
 	- `utils_PH.py`: a python script with functions to compute persistence, image-persistence and cycle matching
-		- **REMARK**: in this script you MUST specify your OS at the beginning.
+		- **REMARK**: in this script you MUST specify your OS at the beginning of this script, if not, it will not work properly.
 	- `utils_plot.py`: a python script for plotting functions
 - `modified ripser`: folder containing the files of the modified versions of Ripser [2] and Ripser-image [3] needed to implement cycle matching. All the credit for the files in these folders should go to the authors in [2] and [3]. The versions of the C++ code that we include here are exactly the same except for one line in the code, altered to extract the indices corresponding to the simplices of the persistence pairs after taking a lexicographic refinement. These are the line 474 in `ripser-image-persistence-simple/ripser.cpp` and line 829 in `ripseer-tight-representative-cycles/ripser.cpp`.
 	- `ripser-image-persistence-simple`: folder with the files for Ripser-image [3]. Go to the [original branch of the ripser repository](https://github.com/Ripser/ripser/tree/image-persistence-simple) for further detail.
