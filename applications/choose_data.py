@@ -11,10 +11,17 @@ from match.utils_PH import *
 ##### PARAMETERS
 # Rmk: the parameters depend on the type of application we have
 
+# 1. choose application
 application = 'matching'  #'prevalence'
 
+# 2. choose dataset
+DATASET = 'embryogenesis'
+# 'cosmic_web', 'actin_cropI', 'actin_cropII', 'actin_cropIII'
+# 'lateral_line_zebrafish' ,'heartbeat' , 'noisy_cycles', 
+
+# 3. choose parameters
 if application == 'prevalence': 
-    N_ref = 1000 #1200 #300 #1000
+    N_ref = 1000
     N = 1000
     N_resamp = 20
     noise_scale = .1
@@ -26,26 +33,19 @@ if application == 'matching':
     # 200 for embryogenesis
     noise_scale = 0
 
-DATASET = 'embryogenesis'
-
-# 'cosmic_web', 'actin_crop1', 'actin_crop4','lateral_line_zebrafish' ,'heartbeat' , 'noisy_cycles', 
-
 ####### DATA
 
 def generate_data_resamplings(dataset = None):
         
     if 'actin' in dataset :
-        if dataset == 'actin_crop1' :
-            x1,x2, y1,y2 = 1000,2000, 1500,2700
-            
-        elif dataset == 'actin_crop2' : # mixing front and rear
+        if dataset == 'actin_cropI' : # rear
+            x1,x2, y1,y2 = 1900,2700, 0, 900 
+
+        elif dataset == 'actin_cropII' : # mixing front and rear
             x1,x2, y1,y2 = 1900,2700, 2000, 2900
-            
-        elif dataset == 'actin_crop3' : # rear
-            x1,x2, y1,y2 = 1900,2700, 0, 900 #1500, 2400 (2nd choice close to actin_crop2)
-            
-        elif dataset == 'actin_crop4' : # front
-            x1,x2, y1,y2 = 1900,2700, 3000, 3900 #2500, 3400 (2nd choice close to actin_crop2)
+        
+        elif dataset == 'actin_cropIII' : # front
+            x1,x2, y1,y2 = 1900,2700, 3000, 3900
             
         img = plt.imread('data/actin/CIL_24800.jpg', format='jpg')[...,0] # R = G = B, take R
         img = img[x1:x2, y1:y2]
@@ -71,30 +71,17 @@ def generate_data_resamplings(dataset = None):
 
         # select redshift range
 
-        option = 1
-        if option == 1 :
-            z_min = .564 #.565
-            z_max = .57 #.575
-            df_zbin = df[ (df['z'] > z_min) * (df['z'] < z_max) ]
-        if option == 2 :
-            z0 = .57
-            eps = .002
-            df_zbin = df[ np.abs(df['z'] - z0) < eps ]
+        z_min = .564 #.565
+        z_max = .57 #.575
+        df_zbin = df[ (df['z'] > z_min) * (df['z'] < z_max) ]
 
         x = np.array(df_zbin['ra'])
         y = np.array(df_zbin['dec'])
 
-        def create_mask(x,y, option = 0) :
-            if option == 0 :
-                return np.ones_like(x)
-            if option == 1 :
-                return (170 < x) * (x < 190) * (30 < y) * (y < 50)
-            if option == 2 :
-                return (180 < x) * (x < 190) * (40 < y) * (y < 50)
+        def create_mask(x,y) :
+            return (170 < x) * (x < 190) * (30 < y) * (y < 50)
 
-        OPTION = 1
-
-        mask = create_mask(x,y, option = OPTION)
+        mask = create_mask(x,y)
         x = x[mask > 0]
         y = y[mask > 0]
 

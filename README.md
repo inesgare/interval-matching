@@ -10,6 +10,8 @@ In this repository:
 1. we provide state-of-the-art code for performing cycle matching by using the computational advantage that Ripser [2] and Ripser-image [3] render (see folder `match`), and
 2. we present a notebook to reproduce the applications in Section 3 of [the aforementioned paper](https://arxiv.org/abs/2209.15446) (see folder `applications`). 
 
+The codes have been co-written by [Inés García-Redondo](https://www.linkedin.com/in/ines-garcia-redondo/) and [Anna Song](https://sites.google.com/view/annasong).
+
 ### About C++
 
 C++ is a general-purpose programming language which has object-oriented, generic, and functional features in addition to facilities for low-level memory manipulation. It is the language chosen for the codes Ripser [2] and Ripser-image [3]. The C++ files for those, with a slight modification needed to implement cycle matching, can be found in the folder `modified ripser`. 
@@ -28,17 +30,17 @@ Before running the code to perform cycle matching in this repository, one needs 
 - The relevant Makefiles are included in the corresponding folders, so the compilation can be done by running the command line `make` in a terminal opened in the folder. 
 - The compiled files should be in the same directory than the python scripts/notebooks in which the cycle matching code is invoked.
 
-### Installing python libraries
-The implementation of cycle matching requires the installation of python on your computer. 
+### Installing Python libraries
+The implementation of cycle matching requires the installation of Python on your computer. 
 
-Additionally, the python code in `match` requires the installation of the following libraries (follow the corresponding link to find the documentation and installation guidelines):
+Additionally, the Python code in `match` requires the installation of the following libraries (follow the corresponding link to find the documentation and installation guidelines):
 - [numpy](https://numpy.org/)
 - [matplotlib](https://matplotlib.org/stable/index.html)
 
 For the notebook on `applications` one must also install the library
 - [scikit-image](https://scikit-image.org/)
 
-We recommend installing python and these libraries through [Anaconda](https://www.anaconda.com/) and [conda-forge](https://conda-forge.org/).
+We recommend installing Python and these libraries through [Anaconda](https://www.anaconda.com/) and [conda-forge](https://conda-forge.org/).
 
 
 ## Structure of the repository
@@ -50,10 +52,10 @@ This repository is organised as follows.
 	- `applications.ipynb`: notebook to reproduce all experiments in the paper. 
 	- additional auxiliar scripts that are explained inside the notebook.
 - `match`: folder containing the main scripts of code. 
-	- `utils_data.py`: a python script with sampling functions on images, circles, and nii files for surfaces and volumes
-	- `utils_PH.py`: a python script with functions to compute persistence, image-persistence and cycle matching
+	- `utils_data.py`: a Python script with sampling functions on images, circles, and nii files for surfaces and volumes
+	- `utils_PH.py`: a Python script with functions to compute persistence, image-persistence and cycle matching
 		- **REMARK**: in this script you MUST specify your OS at the beginning of this script, if not, it will not work properly.
-	- `utils_plot.py`: a python script for plotting functions
+	- `utils_plot.py`: a Python script for plotting functions
 - `modified ripser`: folder containing the files of the modified versions of Ripser [2] and Ripser-image [3] needed to implement cycle matching. All the credit for the files in these folders should go to the authors in [2] and [3]. The versions of the C++ code that we include here are exactly the same except for one line in the code, altered to extract the indices corresponding to the simplices of the persistence pairs after taking a lexicographic refinement. These are the line 474 in `ripser-image-persistence-simple/ripser.cpp` and line 829 in `ripseer-tight-representative-cycles/ripser.cpp`.
 	- `ripser-image-persistence-simple`: folder with the files for Ripser-image [3]. Go to the [original branch of the ripser repository](https://github.com/Ripser/ripser/tree/image-persistence-simple) for further detail.
 	- `ripser-tight-representative-cycles`: folder with the files for Ripser [2] with an additional feature that computes representatives for the persistence bars in the barcode, as explained in [4]. Go to the [original branch of the ripser repository](https://github.com/Ripser/ripser/tree/tight-representative-cycles) for further detail.
