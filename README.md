@@ -10,7 +10,7 @@ In this repository:
 1. we provide state-of-the-art code for performing cycle matching by using the computational advantage that Ripser [2] and Ripser-image [3] render (see folder `match`), and
 2. we present a notebook to reproduce the applications in Section 3 of [the aforementioned paper](https://arxiv.org/abs/2209.15446) (see folder `applications`). 
 
-The codes have been co-written by [Inés García-Redondo](https://www.linkedin.com/in/ines-garcia-redondo/) and [Anna Song](https://sites.google.com/view/annasong).
+The codes have been co-written by [Inés García-Redondo](https://sites.google.com/view/ines-garcia-redondo/home) and [Anna Song](https://sites.google.com/view/annasong).
 
 ### About C++
 
