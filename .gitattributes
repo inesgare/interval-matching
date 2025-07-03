@@ -1,2 +1,0 @@
-embryogenesis/** filter=lfs diff=lfs merge=lfs -text
-cosmic_web/** filter=lfs diff=lfs merge=lfs -text

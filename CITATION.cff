@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Easley"
+  given-names: "Ty"
+  orcid: "https://orcid.org/0000-0002-8215-2598"
+- family-names: "Freese"
+  given-names: "Kevin"
+  orcid: "https://orcid.org/0009-0008-9676-0392"
+title: "(Co)homology cycle-match for large-scale persistence bootstrapping"
+version: 1.0
+date-released: 2024-12-10
+url: "https://github.com/tyo8/interval-matching_bootstrap"

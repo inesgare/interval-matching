@@ -1,27 +1,51 @@
-# Persistent Cohomological Cycle Matching
+# Persistent Cohomological Cycle Bootstrapping
 
 ## Outline 
 
-This repository contains the code for the Persistent Cohomological Cycle Matching approach developed in the paper ["Fast Topological Signal Identification and Persistent Cohomological Cycle Matching" (García-Redondo, Monod, and Song 2022)](https://arxiv.org/abs/2209.15446). 
+This repository is forked from [interval-matching](https://github.com/inesgare/interval-matching), the code for the "Persistent Cohomological Cycle Matching" approach developed in the paper ["Fast Topological Signal Identification and Persistent Cohomological Cycle Matching" (García-Redondo, Monod, and Song 2022)](https://arxiv.org/abs/2209.15446). The original codes were co-written by [Inés García-Redondo](https://sites.google.com/view/ines-garcia-redondo/home) and [Anna Song](https://sites.google.com/view/annasong), performing cycle matching [1] while incorporating the computational advantages given by Ripser [2] and Ripser-image [3].
 
-Persistent homology, one of the cornerstones of topological data analysis, studies the lifespan of the topological features in a nested sequence of topological spaces (i.e. a filtration) by tracking the changes in its homology groups. One of its main outcomes is the *persistence barcode* (or simply, *barcode*)---a canonical summary of the aforementioned lifespans as a set of half-open intervals. A natural question is whether it is possible to compare the barcodes obtained from different filtrations, which would, for instance, provide a correspondence between some of their intervals. Cycle matching [1] is one such way of obtaining an identification between the intervals in two different barcodes. 
+This fork is adapted to perform the analysis in [5] and is also included as a submodule of the corresponding [brain_representations](https://github.com/tyo8/brain_representations/tree/main) repository. 
 
-In this repository:
-1. we provide state-of-the-art code for performing cycle matching by using the computational advantage that Ripser [2] and Ripser-image [3] render (see folder `match`), and
-2. we present a notebook to reproduce the applications in Section 3 of [the aforementioned paper](https://arxiv.org/abs/2209.15446) (see folder `applications`). 
+### Structure of the repository
 
-The codes have been co-written by [Inés García-Redondo](https://sites.google.com/view/ines-garcia-redondo/home) and [Anna Song](https://sites.google.com/view/annasong).
+This repository is organised as follows. Each module listed below also has its own README(s) with more detailed information in corresponding directory.
 
-### About C++
+#### `utils_match`
+Prepare Ripser input, perform post-Ripser interval matching, and compute immediate derivative values from match data.
 
-C++ is a general-purpose programming language which has object-oriented, generic, and functional features in addition to facilities for low-level memory manipulation. It is the language chosen for the codes Ripser [2] and Ripser-image [3]. The C++ files for those, with a slight modification needed to implement cycle matching, can be found in the folder `modified ripser`. 
+#### `visualization`
+Visualize persistence and cycle-match output data, define and calculate quantities of post-hoc analysis.
 
-### About Python
-Python is a high-level, general-purpose programming language. It is the language we use for our code for cycle matching (see folders `applications` and `match`). In this repository you can find python scripts and jupyter notebooks in python. Jupyter Notebook (formerly IPython Notebook) is a web-based interactive computational environment for creating notebook documents.
+#### `slurm_bash`
+SLURM scripting at problem scale, including calls to Ripser.
+
+#### `modified_ripser`
+Ripser, but augmented with a line of code extracting its inbuilt lexicographical filtration refinement.
+
+### Fork Contributions
+This fork of [interval-matching](https://github.com/inesgare/interval-matching) contributes new functionality and makes significant changes to the code structure.
+#### Functionality
+- generalized to accept arbitrary (pre-computed) distance metrics in the bootstrapping case (see `create_ldm_images.py`)
+- additional utilities for cycle registration over data bootstraps (see `create_ldm_images.py` and `generate_tag_subindex.py` in `utils_match`)
+- integration of cycle matching with statistical permutation testing (see `comp_permtest_dists.py`, `bootstrap_dists.py`, `submit_(bsdist|permdist)_sbatch.sh`, and `(permtest|bootstrap)_distances.sh` in `visualization`)
+- new modules for computation of Wasserstein variants (see `diagram_distances.py` in `visualization`)
+- new visualizations of aggregated statistcs and distributions of bootstrapped cycles (see, e.g., `compare_topostats.py` and `distributional_summaries.py` in `visualization`)
+- new toy examples (and corresponding manipulations) for validation and exploration (see `toy_models.py` in `visualization`)
+#### Structure
+- split cycle-matching implementation into modular structure (see `compute.py`, `extract.py`, and `match.py` in `utils_match`)
+- re-factored script-style code into Pythonic functional programming style
+- optimized for integration with high-performance computing (HPC) environment (including bash scripts with example calls: see `submit_*.sh` scripts in `slurm_bash`)
+- re-organized directory structure
 
 ## Preparations
 
-### Compiling the C++ programmes
+### C++
+
+#### About C++
+
+C++ is a general-purpose programming language which has object-oriented, generic, and functional features in addition to facilities for low-level memory manipulation. It is the language chosen for the codes Ripser [2] and Ripser-image [3]. The C++ files for those, with a slight modification needed to implement cycle matching, can be found in the folder `modified ripser`. 
+
+#### Compiling C++ programs
 Before running the code to perform cycle matching in this repository, one needs to compile the C++ files in the `modified ripser` folder. For that
 - Install a C++ compiler in your computer. We recommend getting the compiler [GCC](https://gcc.gnu.org/).
 	- *For Linux*: the default Ubuntu repositories contain a meta-package named build-essential that contains the GCC compiler and a lot of libraries and other utilities required for compiling software. You only need to run `sudo apt install build-essential` in a terminal to install it.
@@ -30,39 +54,29 @@ Before running the code to perform cycle matching in this repository, one needs 
 - The relevant Makefiles are included in the corresponding folders, so the compilation can be done by running the command line `make` in a terminal opened in the folder. 
 - The compiled files should be in the same directory than the python scripts/notebooks in which the cycle matching code is invoked.
 
-### Installing Python libraries
-The implementation of cycle matching requires the installation of Python on your computer. 
+### Python
 
-Additionally, the Python code in `match` requires the installation of the following libraries (follow the corresponding link to find the documentation and installation guidelines):
+#### Python Dependencies
+This repository uses a few packages beyond python built-ins, and most of these are only necessary for post-hoc analysis code in `visualization`. We recommend managing this package's environment and dependencies through [Anaconda/miniconda](https://www.anaconda.com/) and [conda-forge](https://conda-forge.org/). Dependencies are listed below and grouped by module. 
+
+`utils_match`
 - [numpy](https://numpy.org/)
+	
+`visualization`
+- [POT (python optimal transport library)](https://pythonot.github.io/index.html)
+- [OpenCV](https://pypi.org/project/opencv-python/) {optional alternative to POT as Wasserstein backend}
+- [numpy](https://numpy.org/)
+- [scipy](https://scipy.org/)
+- [pandas](https://pandas.pydata.org/)
+- [seaborn](https://seaborn.pydata.org/)
 - [matplotlib](https://matplotlib.org/stable/index.html)
 
-For the notebook on `applications` one must also install the library
-- [scikit-image](https://scikit-image.org/)
 
-We recommend installing Python and these libraries through [Anaconda](https://www.anaconda.com/) and [conda-forge](https://conda-forge.org/).
-
-
-## Structure of the repository
-
-This repository is organised as follows.
-
-- `applications`: folder with the applications included on Section 3 of the paper
-	- `data`: folder featuring the datasets used for the examples on the paper. Note that some of the data we used required an institutional materials transfer agreement, so these data were not made available on this repository, and thus those examples are no reproducible.
-	- `applications.ipynb`: notebook to reproduce all experiments in the paper. 
-	- additional auxiliar scripts that are explained inside the notebook.
-- `match`: folder containing the main scripts of code. 
-	- `utils_data.py`: a Python script with sampling functions on images, circles, and nii files for surfaces and volumes
-	- `utils_PH.py`: a Python script with functions to compute persistence, image-persistence and cycle matching
-		- **REMARK**: in this script you MUST specify your OS at the beginning of this script, if not, it will not work properly.
-	- `utils_plot.py`: a Python script for plotting functions
-- `modified ripser`: folder containing the files of the modified versions of Ripser [2] and Ripser-image [3] needed to implement cycle matching. All the credit for the files in these folders should go to the authors in [2] and [3]. The versions of the C++ code that we include here are exactly the same except for one line in the code, altered to extract the indices corresponding to the simplices of the persistence pairs after taking a lexicographic refinement. These are the line 474 in `ripser-image-persistence-simple/ripser.cpp` and line 829 in `ripseer-tight-representative-cycles/ripser.cpp`.
-	- `ripser-image-persistence-simple`: folder with the files for Ripser-image [3]. Go to the [original branch of the ripser repository](https://github.com/Ripser/ripser/tree/image-persistence-simple) for further detail.
-	- `ripser-tight-representative-cycles`: folder with the files for Ripser [2] with an additional feature that computes representatives for the persistence bars in the barcode, as explained in [4]. Go to the [original branch of the ripser repository](https://github.com/Ripser/ripser/tree/tight-representative-cycles) for further detail.
+Note that the [OpenCV](https://pypi.org/project/opencv-python/) package is an optional alternative to [POT](https://pythonot.github.io/index.html) as the backend for Wasserstein computations; the code importing this package can be disabled without affecting overall functionality. In our problem regime, we found [POT](https://pythonot.github.io/index.html) to have performance advantages over [OpenCV](https://pypi.org/project/opencv-python/), hence its status as the default option.
 
 ## Academic use
 
-This code is available and is fully adaptable for individual user customization. If you use the our methods, please cite as the following:
+This code is available and is fully adaptable for individual user customization. If you use these methods, please cite the following works:
 
 ```tex
 @misc{garcia-redondo_fast_2022,
@@ -78,6 +92,18 @@ This code is available and is fully adaptable for individual user customization.
 }
 ```
 
+```tex
+@misc{easley2023comparingrepresentationshighdimensionaldata,
+      title={Comparing representations of high-dimensional data with persistent homology: a case study in neuroimaging}, 
+      author={Ty Easley and Kevin Freese and Elizabeth Munch and Janine Bijsterbosch},
+      year={2023},
+      eprint={2306.13802},
+      archivePrefix={arXiv},
+      primaryClass={cs.CG},
+      url={https://arxiv.org/abs/2306.13802}, 
+}
+```
+
 ## References
 [1] Reani, Yohai, and Omer Bobrowski. 2021. ‘Cycle Registration in Persistent Homology with Applications in Topological Bootstrap’, January. https://arxiv.org/abs/2101.00698v1.
 
@@ -86,3 +112,5 @@ This code is available and is fully adaptable for individual user customization.
 [3] Bauer, Ulrich, and Maximilian Schmahl. 2022. ‘Efficient Computation of Image Persistence’. ArXiv:2201.04170 [Cs, Math], January. http://arxiv.org/abs/2201.04170.
 
 [4] Čufar, Matija, and Žiga Virk. 2021. ‘Fast Computation of Persistent Homology Representatives with Involuted Persistent Homology’. ArXiv:2105.03629 [Math], May. http://arxiv.org/abs/2105.03629.
+
+[5] T. Easley, K. Freese, E. Munch, and J. Bijsterbosch, “Comparing representations of high-dimensional data with persistent homology: a case study in neuroimaging,” Nov. 23, 2023, arXiv: arXiv:2306.13802. doi: [10.48550/arXiv.2306.13802](https://arxiv.org/abs/2306.13802).
